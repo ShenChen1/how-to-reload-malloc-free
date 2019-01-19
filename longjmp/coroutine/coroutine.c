@@ -12,14 +12,14 @@ static void thread_0()
 {
 	printf("%s %d\n\n", __FUNCTION__, cnt0);
 	sleep(1);
-	longjmp(jmpbuf_th0, ++cnt0);
+	longjmp(jmpbuf_th0, cnt0++);
 }
 
 static void thread_1()
 {
 	printf("%s %d\n\n", __FUNCTION__, cnt1);
 	sleep(1);
-	longjmp(jmpbuf_th1, ++cnt1);
+	longjmp(jmpbuf_th1, cnt1++);
 }
 
 
