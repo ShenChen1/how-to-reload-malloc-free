@@ -8,7 +8,7 @@
  hello ./test.out
 ```
 
-## 找到my_printf：
+## 找到my_printf:
 objdump -d -s -j .text test.out
 ```
 0000000000400560 <my_printf>:
@@ -20,7 +20,7 @@ objdump -d -s -j .text test.out
   40056f:   90                      nop
 ```
 
-## 找到printf@plt
+## 找到printf@plt:
 objdump -d -s -j .plt test.out
 ```
 00000000004003f0 <printf@plt>:
@@ -29,7 +29,7 @@ objdump -d -s -j .plt test.out
   4003fb:   e9 e0 ff ff ff          jmpq   4003e0 <_init+0x18>
 ```
 
-## 找到printf的got位置：
+## 找到printf的got位置:
 objdump -d -s -j .got.plt test.out
 ```
 Contents of section .got.plt:
