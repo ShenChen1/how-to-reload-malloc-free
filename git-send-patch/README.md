@@ -13,8 +13,9 @@ $git send-email --compose ./*.patch
 这里使用--compose增加一个[PATCH 0/m]作为summary，输入命令后编辑器打开，此时要添写
 subject, body作为[PATCH 0/m]的内容(也就是此时为手写的summary)。
 
-此时后面发送的每个patch都是对第一条的回复，后面的第一个patch的In-Reply-To都是第一
-条的Message-Id。而不是对前一条的回复。这是因为git send-email默认情况下使用
+此时后面发送的每个patch都是对第一条的回复，后面的每个patch的In-Reply-To都是第一条的Message-Id。
+
+这是因为git send-email默认情况下使用
 --no-chain-reply-to参数：
 ```
 --[no-]chain-reply-to
@@ -44,3 +45,21 @@ and the overall diffstat.You can fill in a description in the file before sendin
 ```
 $git send-email ./*.patch --to=xxx@gmail.com
 ```
+
+
+## 举个例子：
+你先发送了一份cover letter（无论用什么客户端，只要plaintext就行）叫做’XXX CoverLetter‘，
+然后你的后续补丁就应该使用上文提到的`--chain-reply-to`将补丁们挨个串起来。
+最后填写这个`in reply to:`来将补丁与cover letter串起来。这样就构成了一个如下有深度的结构。
+
+	XXX CoverLetter
+	└─> [PATCH 1/2] XXX1
+		└─> [PATCH 2/2] XXX2
+
+但邮件列表建议我们使用`--no-chain-reply-to`方式，结果更加平坦便于审阅：
+
+	XXX CoverLetter
+		├─> [PATCH 1/2] XXX1
+		└─> [PATCH 2/2] XXX2
+
+
