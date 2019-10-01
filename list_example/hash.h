@@ -3,8 +3,10 @@
 /* Fast hashing routine for ints,  longs and pointers.
    (C) 2002 Nadia Yvette Chambers, IBM */
 
-#include <asm/types.h>
-#include <linux/compiler.h>
+//#include <asm/types.h>
+#include "types.h"
+//#include <linux/compiler.h>
+#include "compiler.h"
 
 /*
  * The "GOLDEN_RATIO_PRIME" is used in ifs/btrfs/brtfs_inode.h and
@@ -54,7 +56,7 @@
  * to match need to have their HAVE_ARCH_* define values updated so the
  * self-test will not false-positive.
  */
-#ifndef HAVE_ARCH__HASH_32
+#ifndef HAVE_ARCH_HASH_32
 #define __hash_32 __hash_32_generic
 #endif
 static inline u32 __hash_32_generic(u32 val)

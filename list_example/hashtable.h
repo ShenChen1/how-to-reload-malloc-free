@@ -7,11 +7,16 @@
 #ifndef _LINUX_HASHTABLE_H
 #define _LINUX_HASHTABLE_H
 
-#include <linux/list.h>
-#include <linux/types.h>
-#include <linux/kernel.h>
-#include <linux/hash.h>
-#include <linux/rculist.h>
+//#include <linux/list.h>
+#include "list.h"
+//#include <linux/types.h>
+#include "types.h"
+//#include <linux/kernel.h>
+#include "kernel.h"
+//#include <linux/hash.h>
+#include "hash.h"
+//#include <linux/rculist.h>
+#include "log2.h"
 
 #define DEFINE_HASHTABLE(name, bits)						\
 	struct hlist_head name[1 << (bits)] =					\
@@ -66,8 +71,10 @@ static inline void __hash_init(struct hlist_head *ht, unsigned int sz)
  * @node: the &struct hlist_node of the object to be added
  * @key: the key of the object to be added
  */
+/*
 #define hash_add_rcu(hashtable, node, key)					\
 	hlist_add_head_rcu(node, &hashtable[hash_min(key, HASH_BITS(hashtable))])
+*/
 
 /**
  * hash_hashed - check whether an object is in any hashtable
@@ -111,10 +118,12 @@ static inline void hash_del(struct hlist_node *node)
  * hash_del_rcu - remove an object from a rcu enabled hashtable
  * @node: &struct hlist_node of the object to remove
  */
+/*
 static inline void hash_del_rcu(struct hlist_node *node)
 {
 	hlist_del_init_rcu(node);
 }
+*/
 
 /**
  * hash_for_each - iterate over a hashtable
@@ -135,10 +144,12 @@ static inline void hash_del_rcu(struct hlist_node *node)
  * @obj: the type * to use as a loop cursor for each entry
  * @member: the name of the hlist_node within the struct
  */
+/*
 #define hash_for_each_rcu(name, bkt, obj, member)			\
 	for ((bkt) = 0, obj = NULL; obj == NULL && (bkt) < HASH_SIZE(name);\
 			(bkt)++)\
 		hlist_for_each_entry_rcu(obj, &name[bkt], member)
+*/
 
 /**
  * hash_for_each_safe - iterate over a hashtable safe against removal of
@@ -173,9 +184,11 @@ static inline void hash_del_rcu(struct hlist_node *node)
  * @member: the name of the hlist_node within the struct
  * @key: the key of the objects to iterate over
  */
+/*
 #define hash_for_each_possible_rcu(name, obj, member, key)		\
 	hlist_for_each_entry_rcu(obj, &name[hash_min(key, HASH_BITS(name))],\
 		member)
+*/
 
 /**
  * hash_for_each_possible_rcu_notrace - iterate over all possible objects hashing
@@ -188,9 +201,11 @@ static inline void hash_del_rcu(struct hlist_node *node)
  * This is the same as hash_for_each_possible_rcu() except that it does
  * not do any RCU debugging or tracing.
  */
+/*
 #define hash_for_each_possible_rcu_notrace(name, obj, member, key) \
 	hlist_for_each_entry_rcu_notrace(obj, \
 		&name[hash_min(key, HASH_BITS(name))], member)
+*/
 
 /**
  * hash_for_each_possible_safe - iterate over all possible objects hashing to the
