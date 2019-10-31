@@ -26,7 +26,8 @@ gcc -shared -fPIC -Wl,-soname,libfoo.so.1 -o libfoo.so.1.1 foo_1.c
 ln -sf libfoo.so.1.1 libfoo.so
 gcc main.c -I. -L. -lfoo -o a.out
 # Same as `ldconfig -n .`, creates a symbolic link
-ln -sf libfoo.so.1.1 libfoo.so.1
+# ln -sf libfoo.so.1.1 libfoo.so.1
+ldconfig -n .
 #./a.out: error while loading shared libraries: libfoo.so.1: cannot open 
 # shared object file: No such file or directory
 LD_LIBRARY_PATH=. ./a.out
@@ -34,9 +35,26 @@ call foo 1
 [root@sc tmp]# make v2 test
 gcc -shared -fPIC -Wl,-soname,libfoo.so.1 -o libfoo.so.1.2 foo_2.c
 # Same as `ldconfig -n .`, creates a symbolic link
-ln -sf libfoo.so.1.2 libfoo.so.1
+# ln -sf libfoo.so.1.2 libfoo.so.1
+ldconfig -n .
 #./a.out: error while loading shared libraries: libfoo.so.1: cannot open 
 # shared object file: No such file or directory
 LD_LIBRARY_PATH=. ./a.out
 call foo 2
+```
+此时执行可以看到库已经被升级了，因为linker使用的是soname
+
+```
+[root@sc tmp]# ll
+total 48
+-rwxr-xr-x 1 root root 8424 Oct 31 20:06 a.out
+-rw-r--r-- 1 root root   78 Oct 31 19:59 foo_1.c
+-rw-r--r-- 1 root root   78 Oct 31 20:00 foo_2.c
+-rw-r--r-- 1 root root   47 Oct 31 18:15 foo.h
+lrwxrwxrwx 1 root root   13 Oct 31 20:06 libfoo.so -> libfoo.so.1.1
+lrwxrwxrwx 1 root root   13 Oct 31 20:06 libfoo.so.1 -> libfoo.so.1.2
+-rwxr-xr-x 1 root root 8104 Oct 31 20:06 libfoo.so.1.1
+-rwxr-xr-x 1 root root 8104 Oct 31 20:06 libfoo.so.1.2
+-rw-r--r-- 1 root root   55 Oct 31 18:16 main.c
+-rw-r--r-- 1 root root  888 Oct 31 20:06 Makefile
 ```
