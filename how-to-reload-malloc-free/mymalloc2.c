@@ -35,7 +35,7 @@ void *malloc(size_t size)
 		}
 	}
 	ptr = mallocp(size);
-	printf("[%s](%d) = %p\n", __func__, size, ptr);
+	printf("[%s](%zu) = %p\n", __func__, size, ptr);
 	return ptr;
 }
 
@@ -54,7 +54,7 @@ void *calloc(size_t nmemb, size_t size)
 		}
 	}
 	ptr = callocp(nmemb, size);
-	printf("[%s](%d, %d) = %p\n", __func__, nmemb, size, ptr);
+	printf("[%s](%zu, %zu) = %p\n", __func__, nmemb, size, ptr);
 	return ptr;
 }
 
@@ -73,7 +73,7 @@ void *realloc(void *old_ptr, size_t size)
 		}
 	}
 	ptr = reallocp(old_ptr, size);
-	printf("[%s](%p, %d) = %p\n", __func__, old_ptr, size, ptr);
+	printf("[%s](%p, %zu) = %p\n", __func__, old_ptr, size, ptr);
 	return ptr;
 }
 

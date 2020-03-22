@@ -18,7 +18,7 @@ mymalloc3.o:mymalloc3.c
 	$(CC) -c -O2 -g -Wall -o $@ $^
 
 malloc-glibc:main.c libtest.so mymalloc1.so
-	$(CC) -o $@ $^
+	$(CC) -o $@ main.c libtest.so
 
 malloc-dl:main.c libtest.so mymalloc2.so
 	$(CC) -o $@ $^ -ldl
