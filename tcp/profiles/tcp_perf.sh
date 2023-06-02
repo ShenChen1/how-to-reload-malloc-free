@@ -1,6 +1,8 @@
 #!/bin/bash
 
 declare -i pid
+declare -i timeout="${1}"
+declare -i delay="${2}"
 
 declare -a filenames=(
     'tcp_ipv4_loopback_tx_perf'
@@ -39,12 +41,12 @@ declare -A generators=(
 )
 
 function run_iperf3 {
-    iperf3 ${generators[${1}]} -t 40 &
-    pid=$(echo $!)
+    iperf3 ${generators[${1}]} -t  "$(( delay*2 + timeout ))" &
+    pid=${!}
 }
 
 function run_perf {
-    perf record -o "${1}.data" -F 99 -p "${2}" -g -- sleep 30
+    perf record -o "${1}.data" -F 99 -p "${2}" -g -- sleep "${timeout}"
 }
 
 function result {
@@ -54,7 +56,7 @@ function result {
 for file in "${filenames[@]}"; do
     echo "Doing ${file} ..."
     run_iperf3 "${file}"
-    sleep 5
+    sleep "${delay}"
     run_perf "${file}" "${pid}"
     wait
     result "${file}"
